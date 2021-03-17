@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/filterdDb"
+    android:title="filterd data base"
+    android:orderInCategory="1"/>
+    <item
+        android:id="@+id/updateDb"
+        android:title="update data base"
+        android:orderInCategory="2"/>
+    <item
+        android:id="@+id/secondVac"
+        android:title= "second vaccine"
+        android:orderInCategory="3"/>
+    <item
+        android:id="@+id/main"
+        android:title= "enter student"
+        android:orderInCategory="4"/>
+    <item
+        android:id="@+id/credit"
+        android:title= "credits"
+        android:orderInCategory="5"/>
+</menu>

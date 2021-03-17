@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "387805692872",
+    "project_id": "newdb-390de",
+    "storage_bucket": "newdb-390de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387805692872:android:e9c8c735d22f40d848f6fd",
+        "android_client_info": {
+          "package_name": "com.example.fbpg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387805692872-ut10carm6qf5nb6ebidggc1utev5qr2a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN5Eu-ty5QT02VCXQ-M-5UyYFtEtzsIkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387805692872-ut10carm6qf5nb6ebidggc1utev5qr2a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
