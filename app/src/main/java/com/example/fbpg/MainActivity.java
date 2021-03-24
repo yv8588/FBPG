@@ -17,15 +17,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    EditText name_et,lastName_et,class_et,classNum_et;
+import static com.example.fbpg.FBref.refStudents;
+
+public class MainActivity extends AppCompatActivity  {
+    EditText name_et,lastName_et,class_et,classNum_et,date_et,place_et;
+    Switch can;
     Spinner spinner;
     AlertDialog.Builder adb;
-    String[]spin={"first vaccine","cant get vaccinated"};
+    Vaccine vac1=new Vaccine(),vac2=new Vaccine();
+    String name,lastName,Class,ClassNum, Date="",Place="";
     boolean canGet=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,56 +41,38 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         lastName_et=(EditText)findViewById(R.id.lastName_et);
         class_et=(EditText)findViewById(R.id.class_et);
         classNum_et=(EditText)findViewById(R.id.classNum_et);
-        spinner=(Spinner)findViewById(R.id.spinner);
-        ArrayAdapter<String>adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,spin);// spinner adapter.
-        spinner.setAdapter(adp);
+        can=(Switch)findViewById(R.id.can);
+        place_et=(EditText)findViewById(R.id.place_et);
+        date_et=(EditText)findViewById(R.id.date_et);
 
-    }
-
-    public void sub(View view) {
-        if(canGet){
-
-        }
-        else{
-
-        }
     }
 
     /**
-     * when item clicked in the spinner updates vaccine information.
+     * push the info to data base on finish.
      * <p>
-     * @param parent the adapter.
-     * @param view the view got clicked.
-     * @param position the position in the adapter.
-     * @param id the row id.
+     * @param view the button that got clicked.
      */
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position==0){
-            adb=new AlertDialog.Builder(this);
-            adb.setTitle("First vaccine info");
-            final EditText place=new EditText(this);
-            place.setHint("vaccine place");
-            final DatePicker date=new DatePicker(this);
-            adb.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                     Vaccine vaccine=new Vaccine(place.getText().toString(),)
-                }
-            });
-            AlertDialog ad=adb.create();
-            ad.show();
-
+    public void sub(View view) {
+        name=name_et.getText().toString();
+        lastName=lastName_et.getText().toString();
+        Class=class_et.getText().toString();
+        ClassNum=classNum_et.getText().toString();
+        vac1.setDate(date_et.getText().toString());
+        vac1.setPlace(place_et.getText().toString());
+        if(name==null||lastName==null||Class==null||ClassNum==null)
+            Toast.makeText(MainActivity.this, "enter all the Student information", Toast.LENGTH_SHORT).show();
+        else if(canGet){
+            if(vac1.getDate().equals("")||vac1.getPlace().equals(""))
+                Toast.makeText(MainActivity.this, "enter all the Vaccine information", Toast.LENGTH_SHORT).show();
+            else {
+                Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,canGet);
+                refStudents.push().setValue(student);
+            }
         }
         else{
-          canGet=false;
+            Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,canGet);
+            refStudents.push().setValue(student);
         }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
     /**
      * creates the xml general option menu.
@@ -126,5 +113,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onSwitch(View view) {
+        canGet=can.isChecked();
+
     }
 }

@@ -30,10 +30,21 @@
             android:hint="Class"
             android:inputType="textPersonName" />
 
-        <Space
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.25" />
+            android:layout_weight="0.5"
+            android:text="can you get vaccinated" />
+
+        <Switch
+            android:id="@+id/can"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:text="Switch"
+            android:textOn="yes"
+            android:textOff="no"
+            android:onClick="onSwitch"/>
 
         <Button
             android:id="@+id/button"
@@ -73,11 +84,30 @@
             android:hint="Class number"
             android:inputType="textPersonName" />
 
-        <Spinner
-            android:id="@+id/spinner"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="first vaccine" />
+
+        <EditText
+            android:id="@+id/place_et"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="place"
+            android:inputType="textPersonName"
+            android:text="Name" />
+
+        <EditText
+            android:id="@+id/date_et"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="date"
+            android:inputType="date" />
 
         <Space
             android:layout_width="match_parent"

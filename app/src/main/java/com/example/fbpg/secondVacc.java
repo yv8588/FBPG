@@ -7,13 +7,60 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-public class secondVacc extends AppCompatActivity {
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+import static com.example.fbpg.FBref.refStudents;
+
+public class secondVacc extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    Spinner spinames;
+    EditText Place,Date;
+    ArrayList<Student>stud=new ArrayList<>();
+    ArrayList<String>studName=new ArrayList<>();
+    ArrayList<Student>student=new ArrayList<>();
+    ArrayList<String>keys=new ArrayList<>();
+    ValueEventListener stuListener;
+    Vaccine vac;
+    int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second_vacc);
+        spinames=(Spinner)findViewById(R.id.spinames);
+        Place=(EditText)findViewById(R.id.Place);
+        Date=(EditText)findViewById(R.id.Date);
+          stuListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dS) {
+                stud.clear();
+                for (DataSnapshot data : dS.getChildren()) {
+                    Student stuTmp = data.getValue(Student.class);
+                    String str=(String)data.getKey();
+                    String name=stuTmp.getName();
+                    student.add(stuTmp);
+                    studName.add(name);
+                    keys.add(str);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        };
+        refStudents.addValueEventListener(stuListener);
+
+        ArrayAdapter<String> adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,studName);// spinner adapter.
+        spinames.setAdapter(adp);
+        spinames.setOnItemSelectedListener(this);
     }
     /**
      * creates the xml general option menu.
@@ -54,5 +101,54 @@ public class secondVacc extends AppCompatActivity {
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * submits the person to the db.
+     * <p>
+     * @param view
+     */
+    public void submit(View view) {
+
+        vac.setDate(Date.getText().toString());
+        vac.setPlace(Place.getText().toString());
+        if(student.get(pos).isCan()){
+            if(vac.getDate().equals("")||vac.getPlace().equals(""))
+                Toast.makeText(secondVacc.this, "enter all the Vaccine information", Toast.LENGTH_SHORT).show();
+            else {
+                student.get(pos).setVac2(vac);
+                refStudents.child(keys.get(pos)).setValue(student.get(pos));
+            }
+        }
+        else{
+            Toast.makeText(secondVacc.this, "the person cant get vaccinated.", Toast.LENGTH_SHORT).show();
+            student.get(pos).setVac2(new Vaccine("",""));
+            refStudents.child(keys.get(pos)).setValue(student);
+        }
+    }
+
+    @Override
+    /**
+     * when name selected on the spinner saves position.
+     * <p>
+     * @param position the position in the ArrayList.
+     */
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        pos=position;
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    protected void onPause() {
+        if (stuListener!=null) {
+            refStudents.removeEventListener(stuListener);
+        }
+
+        super.onPause();
     }
 }
