@@ -30,7 +30,7 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
     ArrayList<Student>student=new ArrayList<>();
     ArrayList<String>keys=new ArrayList<>();
     ValueEventListener stuListener;
-    Vaccine vac;
+    Vaccine vac=new Vaccine();
     int pos;
 
     @Override
@@ -44,6 +44,8 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onDataChange(DataSnapshot dS) {
                 stud.clear();
+                studName.clear();
+                keys.clear();
                 for (DataSnapshot data : dS.getChildren()) {
                     Student stuTmp = data.getValue(Student.class);
                     String str=(String)data.getKey();
@@ -109,7 +111,6 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
      * @param view
      */
     public void submit(View view) {
-
         vac.setDate(Date.getText().toString());
         vac.setPlace(Place.getText().toString());
         if(student.get(pos).isCan()){

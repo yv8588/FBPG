@@ -27,8 +27,6 @@ import static com.example.fbpg.FBref.refStudents;
 public class MainActivity extends AppCompatActivity  {
     EditText name_et,lastName_et,class_et,classNum_et,date_et,place_et;
     Switch can;
-    Spinner spinner;
-    AlertDialog.Builder adb;
     Vaccine vac1=new Vaccine(),vac2=new Vaccine();
     String name,lastName,Class,ClassNum, Date="",Place="";
     boolean canGet=true;
@@ -73,6 +71,13 @@ public class MainActivity extends AppCompatActivity  {
             Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,canGet);
             refStudents.push().setValue(student);
         }
+        class_et.setText("");
+        name_et.setText("");
+        lastName_et.setText("");
+        classNum_et.setText("");
+        place_et.setText("");
+        date_et.setText("");
+        can.setChecked(false);
     }
     /**
      * creates the xml general option menu.

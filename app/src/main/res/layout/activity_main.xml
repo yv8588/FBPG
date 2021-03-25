@@ -97,8 +97,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="place"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/date_et"
