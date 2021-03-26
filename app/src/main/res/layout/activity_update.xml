@@ -36,7 +36,6 @@
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
@@ -59,6 +58,13 @@
             android:ems="10"
             android:hint="date"
             android:inputType="textPassword" />
+
+        <Switch
+            android:id="@+id/can_get"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:text="Switch" />
 
         <Button
             android:id="@+id/update"

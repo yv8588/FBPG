@@ -25,7 +25,6 @@ import static com.example.fbpg.FBref.refStudents;
 public class secondVacc extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner spinames;
     EditText Place,Date;
-    ArrayList<Student>stud=new ArrayList<>();
     ArrayList<String>studName=new ArrayList<>();
     ArrayList<Student>student=new ArrayList<>();
     ArrayList<String>keys=new ArrayList<>();
@@ -40,25 +39,26 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
         spinames=(Spinner)findViewById(R.id.spinames);
         Place=(EditText)findViewById(R.id.Place);
         Date=(EditText)findViewById(R.id.Date);
-          stuListener = new ValueEventListener() {
+          refStudents.addListenerForSingleValueEvent( new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dS) {
-                stud.clear();
+                student.clear();
                 studName.clear();
                 keys.clear();
                 for (DataSnapshot data : dS.getChildren()) {
                     Student stuTmp = data.getValue(Student.class);
                     String str=(String)data.getKey();
                     String name=stuTmp.getName();
-                    student.add(stuTmp);
-                    studName.add(name);
-                    keys.add(str);
+                    if(stuTmp.isCan()) {
+                        student.add(stuTmp);
+                        studName.add(name);
+                        keys.add(str);
+                    }
                 }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) { }
-        };
-        refStudents.addValueEventListener(stuListener);
+        });
 
         ArrayAdapter<String> adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,studName);// spinner adapter.
         spinames.setAdapter(adp);
@@ -126,6 +126,8 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
             student.get(pos).setVac2(new Vaccine("",""));
             refStudents.child(keys.get(pos)).setValue(student);
         }
+        Date.setText("");
+        Place.setText("");
     }
 
     @Override
@@ -142,14 +144,5 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    @Override
-    protected void onPause() {
-        if (stuListener!=null) {
-            refStudents.removeEventListener(stuListener);
-        }
-
-        super.onPause();
     }
 }

@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity  {
             if(vac1.getDate().equals("")||vac1.getPlace().equals(""))
                 Toast.makeText(MainActivity.this, "enter all the Vaccine information", Toast.LENGTH_SHORT).show();
             else {
-                Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,canGet);
+                Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,true);
                 refStudents.push().setValue(student);
             }
         }
         else{
-            Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,canGet);
+            Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,false);
             refStudents.push().setValue(student);
         }
         class_et.setText("");
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void onSwitch(View view) {
-        canGet=can.isChecked();
+        canGet=!can.isChecked();
 
     }
 }
