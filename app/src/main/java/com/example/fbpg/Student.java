@@ -69,4 +69,28 @@ public class Student {
     public void setCan(boolean can) {
         this.can = can;
     }
+
+    @Override
+    public String toString() {
+        if(can) {
+            return "Student{" +
+                    "name='" + name + '\'' +
+                    ", lastName='" + lastName + '\'' +
+                    ", class='" + Sclass + '\'' +
+                    ", classNumber='" + classNumber + '\'' +
+                    ", vac1=" + vac1 +
+                    ", vac2=" + vac2 +
+                    ", can get="+
+                    '}';
+        }
+        else{
+           return "Student{" +
+                   "name='" + name + '\'' +
+                   ", lastName='" + lastName + '\'' +
+                   ", class='" + Sclass + '\'' +
+                   ", classNumber='" + classNumber + '\'' +
+                   ", cant get="+
+                   '}';
+        }
+    }
 }

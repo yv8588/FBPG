@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity  {
     EditText name_et,lastName_et,class_et,classNum_et,date_et,place_et;
     Switch can;
     Vaccine vac1=new Vaccine(),vac2=new Vaccine();
-    String name,lastName,Class,ClassNum, Date="",Place="";
+    String name,lastName,Class,ClassNum;
     boolean canGet=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
