@@ -32,7 +32,7 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
     String[]Options={"","by class number","by class","all","cant"};
     ArrayList<Student>students=new ArrayList<>();
     AlertDialog.Builder adb;
-    String Class;
+    String Class,ClassNumber;
     String info;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
                         if (forUse.equals(null))
                             Toast.makeText(showfb.this, "enter class number", Toast.LENGTH_SHORT).show();
                         else {
-                            Class = forUse;
+                            ClassNumber = forUse;
                             dialog.dismiss();
                         }
                     }
@@ -96,7 +96,7 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
 
                     }
                 };
-                Query query2 =  refStudents.orderByChild("classNumber").equalTo(Class);
+                Query query2 =  refStudents.orderByChild("classNumber").equalTo(ClassNumber);
                 query2.addListenerForSingleValueEvent(vel2);
                 break;
 

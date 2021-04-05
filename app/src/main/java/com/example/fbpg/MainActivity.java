@@ -27,7 +27,7 @@ import static com.example.fbpg.FBref.refStudents;
 public class MainActivity extends AppCompatActivity  {
     EditText name_et,lastName_et,class_et,classNum_et,date_et,place_et;
     Switch can;
-    Vaccine vac1=new Vaccine(),vac2=new Vaccine();
+    Vaccine vac1=new Vaccine();
     String name,lastName,Class,ClassNum;
     boolean canGet=true;
     @Override
@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity  {
             if(vac1.getDate().equals("")||vac1.getPlace().equals(""))
                 Toast.makeText(MainActivity.this, "enter all the Vaccine information", Toast.LENGTH_SHORT).show();
             else {
-                Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,true);
+                Student student=new Student(name,lastName,Class,ClassNum,new Vaccine(vac1.getPlace(),vac1.getDate()),null,true);
                 refStudents.push().setValue(student);
             }
         }
         else{
-            Student student=new Student(name,lastName,Class,ClassNum,vac1,vac2,false);
+            Student student=new Student(name,lastName,Class,ClassNum,null,null,false);
             refStudents.push().setValue(student);
         }
         class_et.setText("");

@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static com.example.fbpg.FBref.refStudents;
+import static com.example.fbpg.R.layout.support_simple_spinner_dropdown_item;
 
 public class secondVacc extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner spinames;
@@ -28,7 +29,6 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
     ArrayList<String>studName=new ArrayList<>();
     ArrayList<Student>student=new ArrayList<>();
     ArrayList<String>keys=new ArrayList<>();
-    Vaccine vac=new Vaccine();
     int pos;
 
     @Override
@@ -50,13 +50,13 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
                             keys.add(str);
                     }
                 }
+                ArrayAdapter<String> adp=new ArrayAdapter<String>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,studName);// spinner adapter.
+                spinames.setAdapter(adp);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
         spinames.setOnItemSelectedListener(this);
-        ArrayAdapter<String> adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,studName);// spinner adapter.
-        spinames.setAdapter(adp);
     }
     /**
      * submits the person to the db.
@@ -64,13 +64,11 @@ public class secondVacc extends AppCompatActivity implements AdapterView.OnItemS
      * @param view
      */
     public void submit(View view) {
-        vac.setDate(Date.getText().toString());
-        vac.setPlace(Place.getText().toString());
         if(student.get(pos).isCan()){
-            if(vac.getDate().equals("")||vac.getPlace().equals(""))
+            if(Date.getText().toString().equals("")||Place.getText().toString().equals(""))
                 Toast.makeText(secondVacc.this, "enter all the Vaccine information", Toast.LENGTH_SHORT).show();
             else {
-                student.get(pos).setVac2(vac);
+                student.get(pos).setVac2(new Vaccine(Place.getText().toString(),Date.getText().toString()));
                 refStudents.child(keys.get(pos)).setValue(student.get(pos));
             }
         }

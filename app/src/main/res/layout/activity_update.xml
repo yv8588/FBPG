@@ -52,7 +52,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="date"
-            android:inputType="textPassword" />
+            android:inputType="date" />
 
         <Switch
             android:id="@+id/can_get"
@@ -87,8 +87,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="last name"
-            android:inputType="textPersonName" />
+            android:hint="last name" />
 
         <EditText
             android:id="@+id/showClassNum"
@@ -96,14 +95,13 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="class number"
-            android:inputType="textPersonName" />
+            android:hint="class number" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="econd vaccine" />
+            android:text="second vaccine" />
 
         <EditText
             android:id="@+id/secondVacPlace"
@@ -120,8 +118,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="date"
-            android:inputType="textPersonName" />
+            android:hint="date" />
 
         <Spinner
             android:id="@+id/stuName"

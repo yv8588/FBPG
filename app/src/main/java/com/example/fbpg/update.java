@@ -22,13 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static com.example.fbpg.FBref.refStudents;
+import static com.example.fbpg.R.layout.support_simple_spinner_dropdown_item;
 
 public class update extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     EditText showName,showLastName,showClass,showClassNum,secondVacPlace,secondVacDate,firstVacPlace,firstVacDate;
     Switch can_get;
     Spinner stuName;
     ArrayList<Student>stud=new ArrayList<>();
-    ArrayList<String>studName=new ArrayList<>();
+    ArrayList<String>studNames=new ArrayList<>();
     ArrayList<String>keys=new ArrayList<>();
     int pos;
     String name,lastName,Class,classNum,firstPlace,firstDate,secondPlace,secondDate;
@@ -47,6 +48,10 @@ public class update extends AppCompatActivity implements AdapterView.OnItemSelec
         firstVacDate=(EditText)findViewById(R.id.firstVacDate);
         can_get=(Switch)findViewById(R.id.can_get);
         stuName=(Spinner)findViewById(R.id.stuName);
+        stud.clear();
+        studNames.clear();
+        keys.clear();
+        stuName.setOnItemSelectedListener(this);
         refStudents.addListenerForSingleValueEvent( new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dS) {
@@ -56,17 +61,16 @@ public class update extends AppCompatActivity implements AdapterView.OnItemSelec
                     if(stuTmp!=null) {
                         String name=stuTmp.getName();
                         stud.add(stuTmp);
-                        studName.add(name);
+                        studNames.add(name);
                         keys.add(str);
                     }
                 }
+                ArrayAdapter<String> adp=new ArrayAdapter<String>(getApplicationContext(), support_simple_spinner_dropdown_item,studNames);// spinner adapter.
+                stuName.setAdapter(adp);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-        ArrayAdapter<String> adp=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,studName);// spinner adapter.
-        stuName.setAdapter(adp);
-        stuName.setOnItemSelectedListener(this);
     }
     /**
      * when name is chosen shows its info.
@@ -78,16 +82,29 @@ public class update extends AppCompatActivity implements AdapterView.OnItemSelec
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(update.this,"hey",Toast.LENGTH_SHORT).show();
+        showName.setText("");
+        showLastName.setText("");
+        showClassNum.setText("");
+        showClass.setText("");
+        firstVacPlace.setText("");
+        firstVacDate.setText("");
+        secondVacPlace.setText("");
+        secondVacDate.setText("");
         Student student = stud.get(position);
         name = student.getName();
         lastName = student.getLastName();
         Class = student.getSclass();
         classNum = student.getClassNumber();
         can = student.isCan();
-        firstDate = student.getVac1().getDate();
-        firstPlace = student.getVac1().getPlace();
-        secondDate = student.getVac2().getDate();
-        secondPlace = student.getVac2().getPlace();
+        if(can) {
+            firstDate = student.getVac1().getDate();
+            firstPlace = student.getVac1().getPlace();
+            if(student.getVac2()!=null) {
+                secondDate = student.getVac2().getDate();
+                secondPlace = student.getVac2().getPlace();
+            }
+        }
         showLastName.setText(lastName);
         showName.setText(name);
         showClass.setText(Class);
@@ -140,6 +157,15 @@ public class update extends AppCompatActivity implements AdapterView.OnItemSelec
             stud.set(pos,student);
             refStudents.child(keys.get(pos)).setValue(stud.get(pos));
         }
+        Toast.makeText(update.this,"info was saved",Toast.LENGTH_SHORT).show();
+        showName.setText("");
+        showLastName.setText("");
+        showClassNum.setText("");
+        showClass.setText("");
+        firstVacPlace.setText("");
+        firstVacDate.setText("");
+        secondVacPlace.setText("");
+        secondVacDate.setText("");
     }
     /**
      * creates the xml general option menu.
