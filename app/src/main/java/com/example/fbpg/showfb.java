@@ -29,11 +29,12 @@ import static com.example.fbpg.FBref.refStudents;
 public class showfb extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     TextView show;
     Spinner options;
-    String[]Options={"","by class number","by class","all","cant"};
+    String[]Options={"by class number","by class","all","cant"};
     ArrayList<Student>students=new ArrayList<>();
     AlertDialog.Builder adb;
     String Class,ClassNumber;
     String info;
+    int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
         adb=new AlertDialog.Builder(this);
         final EditText et1=new EditText(this);
         switch (position){
-            case 1:
+            case 0:
                 et1.setHint("the class number");
                 adb.setNegativeButton("done", new DialogInterface.OnClickListener() {
                     /**
@@ -69,6 +70,7 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Class="";
                         String forUse = et1.getText().toString();
                         if (forUse.equals(null))
                             Toast.makeText(showfb.this, "enter class number", Toast.LENGTH_SHORT).show();
@@ -81,26 +83,10 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
                 adb.setView(et1);
                 AlertDialog ad1=adb.create();
                 ad1.show();
-                ValueEventListener vel2=new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        students.clear();
-                        for(DataSnapshot data:snapshot.getChildren()) {
-                            Student tmp = data.getValue(Student.class);
-                            students.add(tmp);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                };
-                Query query2 =  refStudents.orderByChild("classNumber").equalTo(ClassNumber);
-                query2.addListenerForSingleValueEvent(vel2);
+                pos=0;
                 break;
 
-            case 2:
+            case 1:
                 et1.setHint("the class name");
                 adb.setNegativeButton("done", new DialogInterface.OnClickListener() {
                     /**
@@ -110,6 +96,7 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Class="";
                         String forUse = et1.getText().toString();
                         if (forUse.equals(null))
                             Toast.makeText(showfb.this, "enter class", Toast.LENGTH_SHORT).show();
@@ -122,7 +109,11 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
                 adb.setView(et1);
                 AlertDialog ad2=adb.create();
                 ad2.show();
-                ValueEventListener vel3=new ValueEventListener() {
+                pos=1;
+                break;
+
+            case 2:
+                ValueEventListener vel2=new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         students.clear();
@@ -138,34 +129,13 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
 
                     }
                 };
-                Query query3 = refStudents.orderByChild("sclass").equalTo(Class);
-                query3.addListenerForSingleValueEvent(vel3);
+                Query query2 =  refStudents.orderByChild("sclass");
+                query2.addListenerForSingleValueEvent(vel2);
+
                 break;
 
             case 3:
-                ValueEventListener vel4=new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        students.clear();
-                        for(DataSnapshot data:snapshot.getChildren()) {
-                            Student tmp = data.getValue(Student.class);
-                            if(tmp.isCan())
-                                students.add(tmp);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                };
-                Query query4 =  refStudents.orderByChild("sclass");
-                query4.addListenerForSingleValueEvent(vel4);
-
-                break;
-
-            case 4:
-                ValueEventListener vel=new ValueEventListener() {
+                ValueEventListener vel3=new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         students.clear();
@@ -180,8 +150,8 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
 
                     }
                 };
-                Query query=  refStudents.orderByChild("can").equalTo(false);
-                query.addListenerForSingleValueEvent(vel);
+                Query query3=  refStudents.orderByChild("can").equalTo(false);
+                query3.addListenerForSingleValueEvent(vel3);
                 break;
         }
     }
@@ -232,10 +202,55 @@ public class showfb extends AppCompatActivity implements AdapterView.OnItemSelec
     }
 
     public void sub(View view) {
-        info="";
-        for(int i=0;i<students.size(); i++) {
-            info=info+"\n"+students.get(i).toString();
+        if(pos==0){
+            ValueEventListener vel0=new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    students.clear();
+                    for(DataSnapshot data:snapshot.getChildren()) {
+                        Student tmp = data.getValue(Student.class);
+                        students.add(tmp);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            };
+            Toast.makeText(showfb.this, ClassNumber, Toast.LENGTH_SHORT).show();
+            Query query0 =  refStudents.orderByChild("classNumber").equalTo(ClassNumber);
+            query0.addListenerForSingleValueEvent(vel0);
+
         }
-        show.setText(info);
+        else if(pos==1){
+            ValueEventListener vel1=new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    students.clear();
+                    for(DataSnapshot data:snapshot.getChildren()) {
+                        Student tmp = data.getValue(Student.class);
+                        if(tmp.isCan())
+                            students.add(tmp);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            };
+            Toast.makeText(showfb.this, Class, Toast.LENGTH_SHORT).show();
+            Query query1 = refStudents.orderByChild("sclass").equalTo(Class);
+            query1.addListenerForSingleValueEvent(vel1);
+
+        }
+        else {
+            info = "";
+            for (int i = 0; i < students.size(); i++) {
+                info = info + "\n" + students.get(i).toString();
+            }
+            show.setText(info);
+        }
     }
 }

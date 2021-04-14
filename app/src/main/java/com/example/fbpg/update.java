@@ -82,7 +82,6 @@ public class update extends AppCompatActivity implements AdapterView.OnItemSelec
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(update.this,"hey",Toast.LENGTH_SHORT).show();
         showName.setText("");
         showLastName.setText("");
         showClassNum.setText("");
@@ -100,25 +99,23 @@ public class update extends AppCompatActivity implements AdapterView.OnItemSelec
         if(can) {
             firstDate = student.getVac1().getDate();
             firstPlace = student.getVac1().getPlace();
+            firstVacPlace.setText(firstDate);
+            firstVacPlace.setText(firstPlace);
             if(student.getVac2()!=null) {
                 secondDate = student.getVac2().getDate();
                 secondPlace = student.getVac2().getPlace();
+                secondVacDate.setText(secondDate);
+                secondVacPlace.setText(secondPlace);
             }
+        }
+        else{
+            Toast.makeText(update.this, "student cant get vaccinated info wont vaccine wont be saved", Toast.LENGTH_SHORT).show();
+            can_get.setChecked(true);
         }
         showLastName.setText(lastName);
         showName.setText(name);
         showClass.setText(Class);
         showClassNum.setText(classNum);
-        if (!can){
-            Toast.makeText(update.this, "student cant get vaccinated info wont vaccine wont be saved", Toast.LENGTH_SHORT).show();
-        can_get.setChecked(true);
-        }
-        else{
-        firstVacPlace.setText(firstDate);
-        firstVacPlace.setText(firstPlace);
-        secondVacDate.setText(secondDate);
-        secondVacPlace.setText(secondPlace);
-        }
         pos=position;
     }
 
@@ -144,7 +141,7 @@ public class update extends AppCompatActivity implements AdapterView.OnItemSelec
         if(name.equals("")||Class.equals("")||classNum.equals("")||lastName.equals(""))
             Toast.makeText(update.this, "enter all the required information", Toast.LENGTH_SHORT).show();
         else if(can_get.isChecked()){
-            if(firstDate.equals("")||firstPlace.equals("")||secondDate.equals("")||secondPlace.equals(""))
+            if(firstDate.equals("")||firstPlace.equals(""))
                 Toast.makeText(update.this, "enter all the Vaccine information", Toast.LENGTH_SHORT).show();
             else{
                 Student student=new Student(name,lastName,Class,classNum,new Vaccine(firstPlace,firstDate),new Vaccine(secondPlace,secondDate),can);
